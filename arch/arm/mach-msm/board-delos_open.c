@@ -2291,6 +2291,9 @@ static struct platform_device *common_devices[] __initdata = {
 #ifdef CONFIG_ION_MSM
 	&ion_dev,
 #endif
+#ifdef CONFIG_ANDROID_RAM_CONSOLE
+	&ram_console_device,
+#endif
 };
 
 static struct platform_device *qrd7627a_devices[] __initdata = {
@@ -2585,6 +2588,9 @@ static void __init msm7627a_reserve(void)
 	memblock_remove(MSM8625_NON_CACHE_MEM, SZ_2K);
 	memblock_remove(BOOTLOADER_BASE_ADDR, msm_ion_audio_size);
 	msm_reserve();
+#ifdef CONFIG_ANDROID_PERSISTENT_RAM
+	add_persistent_ram();
+#endif
 #ifdef CONFIG_CMA
 	dma_declare_contiguous(
 			&ion_cma_device.dev,
